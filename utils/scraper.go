@@ -47,8 +47,8 @@ var (
 // type AuthenticityToken models.AuthenticityToken
 // type Problem models.Problem
 
-// GetToken retrieves the token for login
-func (app *App) GetToken() AuthenticityToken {
+// getToken retrieves the token for login
+func (app *App) getToken() AuthenticityToken {
 	loginURL := baseURL + "/login/email?"
 	client := app.Client
 
@@ -83,7 +83,7 @@ func (app *App) GetToken() AuthenticityToken {
 func (app *App) Login() {
 	client := app.Client
 
-	authenticityToken := app.GetToken()
+	authenticityToken := app.getToken()
 
 	loginURL := baseURL + "/login/email?"
 

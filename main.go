@@ -23,5 +23,4 @@ func main() {
 	for index, pb := range problems {
 		fmt.Printf("%d: %s, %.1f, %s\n", index+1, pb.Name, pb.Difficulty, pb.Link)
 	}
-
 }
