@@ -12,6 +12,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/joho/godotenv"
+	"github.com/tomsarry/kattis-scraper/models"
 )
 
 // iniatialize global variables
@@ -28,23 +29,8 @@ var (
 	password = ""
 )
 
-type App struct {
-	Client *http.Client
-}
-
-type AuthenticityToken struct {
-	Token string
-}
-
-// struct to hold response
-type Problem struct {
-	Name       string
-	Difficulty float64
-	Link       string
-}
-
 // GetToken retrieves the token for login
-func (app *App) GetToken() AuthenticityToken {
+func (app *App) GetToken() models.AuthenticityToken {
 	loginURL := baseURL + "/login/email?"
 	client := app.Client
 
@@ -68,14 +54,14 @@ func (app *App) GetToken() AuthenticityToken {
 		log.Fatal("Did not find input field.")
 	}
 
-	authenticityToken := AuthenticityToken{
+	authenticityToken := models.AuthenticityToken{
 		Token: token,
 	}
 
 	return authenticityToken
 }
 
-func (app *App) login() {
+func (app *models.App) login() {
 	client := app.Client
 
 	authenticityToken := app.GetToken()
@@ -105,7 +91,7 @@ func (app *App) login() {
 }
 
 // GET NEXT PAGE (url page=1...)
-func (app *App) getProblems() []Problem {
+func (app *models.App) getProblems() []Problem {
 	// get only solved problems
 	projectsURL := baseURL + "/problems?show_solved=on&show_tried=off&show_untried=off"
 
@@ -124,7 +110,7 @@ func (app *App) getProblems() []Problem {
 		log.Fatal("Error loading HTTP response body. ", err)
 	}
 
-	var problems []Problem
+	var problems []models.Problem
 
 	// get all solved problems on the problem page
 	document.Find(".solved").Each(func(i int, s *goquery.Selection) {
@@ -148,7 +134,7 @@ func (app *App) getProblems() []Problem {
 
 		link = baseURL + link
 
-		problem := Problem{
+		problem := models.Problem{
 			Name:       name,
 			Difficulty: difficulty,
 			Link:       link,
@@ -164,7 +150,7 @@ func main() {
 	// create a cookiejar to store cookies
 	jar, _ := cookiejar.New(nil)
 
-	app := App{
+	app := models.App{
 		Client: &http.Client{Jar: jar},
 	}
 
