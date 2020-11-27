@@ -3,14 +3,31 @@ package utils
 import (
 	"io/ioutil"
 	"log"
+	"net/http"
 	"net/url"
 	"os"
 	"strconv"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/joho/godotenv"
-	"github.com/tomsarry/kattis-scraper/models"
 )
+
+// App stores the client info
+type App struct {
+	Client *http.Client
+}
+
+// AuthenticityToken stores the token for login
+type AuthenticityToken struct {
+	Token string
+}
+
+// Problem holds info for each problem solved
+type Problem struct {
+	Name       string
+	Difficulty float64
+	Link       string
+}
 
 // iniatialize global variables
 func init() {
@@ -26,12 +43,12 @@ var (
 	password = ""
 )
 
-type App models.App
-type AuthenticityToken models.AuthenticityToken
-type Problem models.Problem
+// type App models.App
+// type AuthenticityToken models.AuthenticityToken
+// type Problem models.Problem
 
 // GetToken retrieves the token for login
-func (app *App) GetToken() models.AuthenticityToken {
+func (app *App) GetToken() AuthenticityToken {
 	loginURL := baseURL + "/login/email?"
 	client := app.Client
 
@@ -55,7 +72,7 @@ func (app *App) GetToken() models.AuthenticityToken {
 		log.Fatal("Did not find input field.")
 	}
 
-	authenticityToken := models.AuthenticityToken{
+	authenticityToken := AuthenticityToken{
 		Token: token,
 	}
 
@@ -94,7 +111,7 @@ func (app *App) Login() {
 
 // GET NEXT PAGE (url page=1...)
 // GetProblems returns the list of solved problems
-func (app *App) GetProblems() []models.Problem {
+func (app *App) GetProblems() []Problem {
 	// get only solved problems
 	projectsURL := baseURL + "/problems?show_solved=on&show_tried=off&show_untried=off"
 
@@ -113,7 +130,7 @@ func (app *App) GetProblems() []models.Problem {
 		log.Fatal("Error loading HTTP response body. ", err)
 	}
 
-	var problems []models.Problem
+	var problems []Problem
 
 	// get all solved problems on the problem page
 	document.Find(".solved").Each(func(i int, s *goquery.Selection) {
@@ -137,7 +154,7 @@ func (app *App) GetProblems() []models.Problem {
 
 		link = baseURL + link
 
-		problem := models.Problem{
+		problem := Problem{
 			Name:       name,
 			Difficulty: difficulty,
 			Link:       link,

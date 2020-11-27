@@ -5,14 +5,14 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 
-	"github.com/tomsarry/kattis-scraper/models"
+	"github.com/tomsarry/kattis-scraper/utils"
 )
 
 func main() {
 	// create a cookiejar to store cookies
 	jar, _ := cookiejar.New(nil)
 
-	app := models.App{
+	app := utils.App{
 		Client: &http.Client{Jar: jar},
 	}
 
