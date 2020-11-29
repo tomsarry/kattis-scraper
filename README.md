@@ -27,6 +27,8 @@ Simply run the following
 $ kattis-scrapper
 ```
 
+Currently returns an alphabetically sorted list of your solved problems.
+
 **⚠️ Note: Make sure to have the .env file in that location.**
 
 ### Example
@@ -46,3 +48,29 @@ $ kattis-scrapper
 11: Closest Sums, 2.8, https://open.kattis.com/problems/closestsums
 12: Cold-puter Science, 1.3, https://open.kattis.com/problems/cold
 ```
+
+## Behaviour for Unexpected Results
+
+Here are some explanations for weird results of the program:
+
+### Difficulty of 0 on a problem ?
+Scraper could not parse the difficulty of the problem, it may be related to some weird notations like this one (TODO):
+
+(Unprecise difficulty)[https://github.com/tomsarry/kattis-scraper/tree/master/assets/pb_ex1.PNG]
+
+### Not a valid link for a problem ?
+Scraper could not parse the link associated with the problem.
+
+## Todo's 
+Here are the next steps for this project, ranked by difficulty (assumption):
+
+### **EASY**
+* Add sort by difficulty, increasing or decreasing. 
+* Add sort by inverse alphabetical order. 
+
+### **MEDIUM**
+* Turn it into an API -> json response file.
+
+### **HARD**
+* Make it work with 100+ solved problems (multiple pages).
+

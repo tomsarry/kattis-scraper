@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -34,6 +35,12 @@ func init() {
 	godotenv.Load(".env")
 	username = os.Getenv("EMAIL")
 	password = os.Getenv("PASSWORD")
+
+	// verify that found values for login
+	if username == "" || password == "" {
+		fmt.Println("Error: could not load username and/or password.")
+		os.Exit(1)
+	}
 }
 
 const baseURL = "https://open.kattis.com"
@@ -42,10 +49,6 @@ var (
 	username = ""
 	password = ""
 )
-
-// type App models.App
-// type AuthenticityToken models.AuthenticityToken
-// type Problem models.Problem
 
 // getToken retrieves the token for login
 func (app *App) getToken() AuthenticityToken {
@@ -95,8 +98,6 @@ func (app *App) Login() {
 
 	response, err := client.PostForm(loginURL, data)
 
-	// fmt.Println(response.Body)
-
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -132,6 +133,14 @@ func (app *App) GetProblems() []Problem {
 
 	var problems []Problem
 
+	// seek login button (unique element with class .dark-bg)
+	document.Find(".dark-bg").Each(func(i int, s *goquery.Selection) {
+		fmt.Println("Error: Could not login to Kattis.")
+		fmt.Println("HINT: Check that you have the correct username/password in your .env file.")
+		fmt.Println("HINT: Also check to see if website is down ?")
+		os.Exit(1)
+	})
+
 	// get all solved problems on the problem page
 	document.Find(".solved").Each(func(i int, s *goquery.Selection) {
 		// not selecting first one (sorting button)
@@ -143,13 +152,19 @@ func (app *App) GetProblems() []Problem {
 
 		difficulty, err := strconv.ParseFloat(s.Find(".numeric").Last().Text(), 64)
 		if err != nil {
-			panic(err.Error())
+			// TODO: check if error if difficulty is weird : 1.7-7.5 for ex -> should fail
+			fmt.Println("Error, could not parse the difficulty.")
+
+			// set it to 0 if error
+			difficulty = 0
 		}
 
+		// find link to problem
 		link, ok := s.Find("a").Attr("href")
 
 		if ok == false {
-			panic("Could not find URL")
+			fmt.Println("Error: Could not find URL of problem.")
+			link = ""
 		}
 
 		link = baseURL + link
