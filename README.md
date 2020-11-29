@@ -56,7 +56,7 @@ Here are some explanations for weird results of the program:
 ### Difficulty of 0 on a problem ?
 Scraper could not parse the difficulty of the problem, it may be related to some weird notations like this one (TODO):
 
-(Unprecise difficulty)[https://github.com/tomsarry/kattis-scraper/tree/master/assets/pb_ex1.PNG]
+![Unprecise difficulty](https://github.com/tomsarry/kattis-scraper/blob/master/assets/pb_ex1.PNG)
 
 ### Not a valid link for a problem ?
 Scraper could not parse the link associated with the problem.
