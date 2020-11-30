@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"sort"
 	"strconv"
 
 	"github.com/PuerkitoBio/goquery"
@@ -110,6 +111,18 @@ func (app *App) Login() {
 	}
 }
 
+type ByDifficulty []Problem
+
+func (p ByDifficulty) Less(i, j int) bool { return p[i].Difficulty < p[j].Difficulty }
+func (p ByDifficulty) Len() int           { return len(p) }
+func (p ByDifficulty) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
+type ByRevDifficulty []Problem
+
+func (p ByRevDifficulty) Less(i, j int) bool { return p[i].Difficulty > p[j].Difficulty }
+func (p ByRevDifficulty) Len() int           { return len(p) }
+func (p ByRevDifficulty) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
 // GET NEXT PAGE (url page=1...)
 // GetProblems returns the list of solved problems
 func (app *App) GetProblems() []Problem {
@@ -179,4 +192,13 @@ func (app *App) GetProblems() []Problem {
 	})
 
 	return problems
+}
+
+// GetIncreasing sorts the problems by increasing order
+func GetIncreasing(problems []Problem) {
+	sort.Sort(ByDifficulty(problems))
+}
+
+func GetDecreasing(problems []Problem) {
+	sort.Sort(ByRevDifficulty(problems))
 }

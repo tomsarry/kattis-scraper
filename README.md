@@ -27,7 +27,7 @@ Simply run the following
 $ kattis-scrapper
 ```
 
-Currently returns an alphabetically sorted list of your solved problems.
+Currently returns a difficulty-sorted list of your solved problems (alphabetically, increasing difficulty or decreasing difficulty ordering possible).
 
 **⚠️ Note: Make sure to have the .env file in that location.**
 
@@ -35,18 +35,19 @@ Currently returns an alphabetically sorted list of your solved problems.
 
 ```
 $ kattis-scrapper
-1: 3D Printed Statues, 1.9, https://open.kattis.com/problems/3dprinter
-2: Accounting, 4.1, https://open.kattis.com/problems/bokforing
-3: Are You Listening?, 2.6, https://open.kattis.com/problems/areyoulistening
-4: Bachet's Game, 2.5, https://open.kattis.com/problems/bachetsgame
-5: Backspace, 2.9, https://open.kattis.com/problems/backspace
-6: Baloni, 3.4, https://open.kattis.com/problems/baloni
-7: Bing It On, 3.7, https://open.kattis.com/problems/bing
-8: Birds on a Wire, 3.3, https://open.kattis.com/problems/birds
-9: Bounding Robots, 1.6, https://open.kattis.com/problems/boundingrobots
-10: Bus Numbers, 3.1, https://open.kattis.com/problems/busnumbers
-11: Closest Sums, 2.8, https://open.kattis.com/problems/closestsums
-12: Cold-puter Science, 1.3, https://open.kattis.com/problems/cold
+1: Hello World!, 1.2, https://open.kattis.com/problems/hello
+2: Planina, 1.3, https://open.kattis.com/problems/planina
+3: Cold-puter Science, 1.3, https://open.kattis.com/problems/cold
+4: Pot, 1.3, https://open.kattis.com/problems/pot
+5: Quality-Adjusted Life-Year, 1.3, https://open.kattis.com/problems/qaly
+6: Piece of Cake!, 1.3, https://open.kattis.com/problems/pieceofcake2
+7: Detailed Differences, 1.4, https://open.kattis.com/problems/detaileddifferences
+8: Simon Says, 1.4, https://open.kattis.com/problems/simonsays
+9: No Duplicates, 1.4, https://open.kattis.com/problems/nodup
+10: Spavanac, 1.4, https://open.kattis.com/problems/spavanac
+11: Solving for Carrots, 1.4, https://open.kattis.com/problems/carrots
+12: Oddities, 1.4, https://open.kattis.com/problems/oddities
+13: Soda Slurper, 1.5, https://open.kattis.com/problems/sodaslurper
 ```
 
 ## Behaviour for Unexpected Results
@@ -65,7 +66,7 @@ Scraper could not parse the link associated with the problem.
 Here are the next steps for this project, ranked by difficulty (assumption):
 
 ### **EASY**
-* Add sort by difficulty, increasing or decreasing. 
+* ~~Add sort by difficulty, increasing or decreasing.~~
 * Add sort by inverse alphabetical order. 
 
 ### **MEDIUM**

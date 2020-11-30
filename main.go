@@ -18,7 +18,12 @@ func main() {
 
 	app.Login()
 
+	// get alphabetical order
 	problems := app.GetProblems()
+
+	// get increasing order of difficulty
+	utils.GetIncreasing(problems)
+	// utils.GetDecreasing(problems)
 
 	for index, pb := range problems {
 		fmt.Printf("%d: %s, %.1f, %s\n", index+1, pb.Name, pb.Difficulty, pb.Link)
