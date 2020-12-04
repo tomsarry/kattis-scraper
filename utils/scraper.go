@@ -5,12 +5,14 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/http/cookiejar"
 	"net/url"
 	"os"
 	"sort"
 	"strconv"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -29,6 +31,10 @@ type Problem struct {
 	Name       string
 	Difficulty float64
 	Link       string
+}
+
+type Response struct {
+	Problems []Problem
 }
 
 // iniatialize global variables
@@ -201,4 +207,30 @@ func GetIncreasing(problems []Problem) {
 
 func GetDecreasing(problems []Problem) {
 	sort.Sort(ByRevDifficulty(problems))
+}
+
+func GetProblemsHandler(c *gin.Context) {
+	// create a cookiejar to store cookies
+	jar, _ := cookiejar.New(nil)
+
+	app := App{
+		Client: &http.Client{Jar: jar},
+	}
+
+	app.Login()
+
+	// get alphabetical order
+	problems := app.GetProblems()
+
+	// get increasing order of difficulty
+	GetIncreasing(problems)
+	// utils.GetDecreasing(problems)
+
+	// for index, pb := range problems {
+	// 	fmt.Printf("%d: %s, %.1f, %s\n", index+1, pb.Name, pb.Difficulty, pb.Link)
+	// }
+
+	res := Response{Problems: problems}
+
+	c.JSON(200, res)
 }

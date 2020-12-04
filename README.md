@@ -70,7 +70,7 @@ Here are the next steps for this project, ranked by difficulty (assumption):
 * Add sort by inverse alphabetical order. 
 
 ### **MEDIUM**
-* Turn it into an API -> json response file.
+* ~~Turn it into an API -> json response file.~~
 
 ### **HARD**
 * Make it work with 100+ solved problems (multiple pages).

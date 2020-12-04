@@ -1,31 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-	"net/http/cookiejar"
-
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"github.com/tomsarry/kattis-scraper/utils"
 )
 
 func main() {
-	// create a cookiejar to store cookies
-	jar, _ := cookiejar.New(nil)
+	r := gin.Default()
+	r.MaxMultipartMemory = 8 << 20
+	r.Static("/", "./public")
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"https://www.tomsarry.com", "http://localhost:3000"},
+		AllowMethods: []string{"GET", "PUT", "POST"},
+	}))
 
-	app := utils.App{
-		Client: &http.Client{Jar: jar},
-	}
+	r.POST("/kattis", utils.GetProblemsHandler)
 
-	app.Login()
-
-	// get alphabetical order
-	problems := app.GetProblems()
-
-	// get increasing order of difficulty
-	utils.GetIncreasing(problems)
-	// utils.GetDecreasing(problems)
-
-	for index, pb := range problems {
-		fmt.Printf("%d: %s, %.1f, %s\n", index+1, pb.Name, pb.Difficulty, pb.Link)
-	}
+	r.Run()
 }
